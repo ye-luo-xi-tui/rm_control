@@ -21,8 +21,8 @@ public:
    * @param joint_reduction Joint's reduction.
    * @param joint_offset Joint's offset.
    */
-  DoubleJointTransmission(const double actuator_reduction, const std::vector<double> joint_reduction,
-                          const std::vector<double> joint_offset = { 0.0, 0.0 });
+  DoubleJointTransmission(double actuator_reduction, std::vector<double> joint_reduction,
+                          std::vector<double> joint_offset = { 0.0, 0.0 });
   /** \brief Set conversion from actuator to joint on effort.
    *
    * @param act_data Data of actuator.
@@ -78,9 +78,8 @@ protected:
   std::vector<double> joint_offset_;
 };
 
-DoubleJointTransmission::DoubleJointTransmission(const double actuator_reduction,
-                                                 const std::vector<double> joint_reduction,
-                                                 const std::vector<double> joint_offset)
+DoubleJointTransmission::DoubleJointTransmission(double actuator_reduction, std::vector<double> joint_reduction,
+                                                 std::vector<double> joint_offset)
   : act_reduction_(actuator_reduction)
   , jnt_reduction_(std::move(joint_reduction))
   , joint_offset_(std::move(joint_offset))
@@ -120,13 +119,13 @@ void DoubleJointTransmission::actuatorToJointVelocity(const ActuatorData& act_da
   assert(act_data.velocity[0] && jnt_data.velocity[0] && jnt_data.velocity[1]);
 
   *jnt_data.velocity[0] = *act_data.velocity[0] / jnt_reduction_[0] / act_reduction_;
-  *jnt_data.velocity[1] = *act_data.velocity[1] / jnt_reduction_[1] / act_reduction_;
+  *jnt_data.velocity[1] = *act_data.velocity[0] / jnt_reduction_[1] / act_reduction_;
 }
 
 void DoubleJointTransmission::jointToActuatorEffort(const JointData& jnt_data, ActuatorData& act_data)
 {
   assert(numActuators() == act_data.effort.size() && numJoints() == jnt_data.effort.size());
-  assert(act_data.effort[0] && jnt_data.velocity[0] && jnt_data.velocity[1]);
+  assert(act_data.effort[0] && jnt_data.effort[0] && jnt_data.effort[1]);
 
   *act_data.effort[0] = *jnt_data.effort[0] / jnt_reduction_[0] / act_reduction_;
 }
