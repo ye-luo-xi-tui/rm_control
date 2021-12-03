@@ -8,4 +8,13 @@
         </description>
     </class>
 
+    <class name="transmission_interface/DoubleJointTransmission"
+           type="transmission_interface::DoubleJointTransmissionLoader"
+           base_class_type="transmission_interface::TransmissionLoader">
+        <description>
+            Load from a URDF description the configuration of two joints that are linked to only one actuator
+            transmission.
+        </description>
+    </class>
+
 </library>

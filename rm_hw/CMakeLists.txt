@@ -72,6 +72,7 @@ include_directories(
 )
 add_library(${PROJECT_NAME}_loader_plugins
         src/transmission/double_actuator_transmission_loader.cpp
+        src/transmission/double_joint_transmission_loader.cpp
         )
 ## Declare cpp executables
 add_executable(${PROJECT_NAME}
